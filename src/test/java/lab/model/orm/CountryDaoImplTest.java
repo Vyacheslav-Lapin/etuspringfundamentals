@@ -1,6 +1,7 @@
 package lab.model.orm;
 
 import lab.dao.CountryDao;
+import lab.model.Config;
 import lab.model.Country;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +22,8 @@ import static org.junit.Assert.assertEquals;
  * Illustrates basic use of Hibernate as a JPA provider.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:application-context.xml")
+//@ContextConfiguration("classpath:application-context.xml")
+@ContextConfiguration(classes = Config.class)
 public class CountryDaoImplTest {
 
     Country exampleCountry = Country.builder().name("Australia").codeName("AU").build();

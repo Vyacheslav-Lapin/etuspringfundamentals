@@ -73,6 +73,12 @@
             <version>4.3.18.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>2.0.6.RELEASE</version>
+        </dependency>
+
         <!-- CODE GENERATION (Lombok & CheckerFramework) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
