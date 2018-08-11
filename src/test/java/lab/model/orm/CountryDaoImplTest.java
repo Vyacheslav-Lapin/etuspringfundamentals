@@ -29,30 +29,23 @@ public class CountryDaoImplTest {
     @Autowired
     CountryDao countryDao;
 
-    static int count;
-
     @Before
     public void setUp() {
         countryDao.save(exampleCountry);
-        count++;
     }
 
     @Test
     public void testSaveCountry() {
         List<Country> countryList = countryDao.getAllCountries();
-        assertEquals(count, countryList.size());
+        assertEquals(1, countryList.size());
         assertEquals(exampleCountry, countryList.get(0));
     }
 
     @Test
     public void testGetAllCountries() {
-
         countryDao.save(new Country("Canada", "CA"));
-        count++;
-
         List<Country> countryList = countryDao.getAllCountries();
-        assertEquals(count, countryList.size());
-
+        assertEquals(2, countryList.size());
     }
 
     @Test
@@ -63,6 +56,6 @@ public class CountryDaoImplTest {
 
     @After
     public void tearDown() {
-        countryDao.delete(exampleCountry);
+        countryDao.deleteAll();
     }
 }

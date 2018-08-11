@@ -1,19 +1,21 @@
 package lab.dao.jpa;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
 import lab.dao.CountryDao;
+import lab.model.Country;
 import lombok.Cleanup;
 import org.springframework.stereotype.Repository;
 
-import lab.dao.CountryJdbcDao;
-import lab.model.Country;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
+import java.util.List;
 
 @Repository
 public class CountryJpaJdbcDaoImpl extends AbstractJpaDao implements CountryDao {
+
+//    @PersistenceContext
+//    EntityManager em;
 
 	@Override
 	public void save(Country country) {
@@ -53,6 +55,15 @@ public class CountryJpaJdbcDaoImpl extends AbstractJpaDao implements CountryDao 
 //                .setParameter("id", country.getId())
 //                .executeUpdate();
         em.flush();
+        transaction.commit();
+    }
+
+    @Override
+    public void deleteAll() {
+        @Cleanup EntityManager em = emf.createEntityManager();
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.createQuery("delete from Country").executeUpdate();
         transaction.commit();
     }
 

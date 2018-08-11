@@ -14,4 +14,6 @@ public interface CountryDao {
 
     void delete(Country country);
 
+    void deleteAll();
+
 }
