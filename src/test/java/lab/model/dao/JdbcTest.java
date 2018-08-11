@@ -1,5 +1,6 @@
 package lab.model.dao;
 
+import static lombok.AccessLevel.PRIVATE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -9,6 +10,9 @@ import java.util.List;
 import lab.dao.CountryDao;
 import lab.model.Country;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +21,30 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@FieldDefaults(level = PRIVATE, makeFinal = true)
 @ContextConfiguration("classpath:application-context.xml")
 public class JdbcTest{
 
+    @NonFinal
 	@Autowired
     CountryDao countryDao;
 
-	List<Country> expectedCountryList = new ArrayList<Country>();
-	List<Country> expectedCountryListStartsWithA = new ArrayList<Country>();
-	Country countryWithChangedName = new Country(1, "Russia", "RU");
+	List<Country> expectedCountryList = new ArrayList<>();
+	List<Country> expectedCountryListStartsWithA = new ArrayList<>();
+	Country countryWithChangedName = new Country(8, "Russia", "RU");
+
+	static String[][] COUNTRY_INIT_DATA = { { "Australia", "AU" },
+            { "Canada", "CA" }, { "France", "FR" }, { "Hong Kong", "HK" },
+            { "Iceland", "IC" }, { "Japan", "JP" }, { "Nepal", "NP" },
+            { "Russian Federation", "RU" }, { "Sweden", "SE" },
+            { "Switzerland", "CH" }, { "United Kingdom", "GB" },
+            { "United States", "US" } };
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initExpectedCountryLists();
-        countryDao.loadCountries();
+        countryDao.loadCountries(COUNTRY_INIT_DATA);
     }
-
     
     @Test
     @DirtiesContext
@@ -64,13 +76,12 @@ public class JdbcTest{
     }
 
     private void initExpectedCountryLists() {
-         for (int i = 0; i < CountryDao.COUNTRY_INIT_DATA.length; i++) {
-             String[] countryInitData = CountryDao.COUNTRY_INIT_DATA[i];
+         for (int i = 0; i < COUNTRY_INIT_DATA.length;) {
+             String[] countryInitData = COUNTRY_INIT_DATA[i++];
              Country country = new Country(i, countryInitData[0], countryInitData[1]);
              expectedCountryList.add(country);
-             if (country.getName().startsWith("A")) {
+             if (country.getName().startsWith("A"))
                  expectedCountryListStartsWithA.add(country);
-             }
          }
      }
 }

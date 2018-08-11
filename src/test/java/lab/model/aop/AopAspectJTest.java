@@ -18,39 +18,39 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration("classpath:aop.xml")
 public class AopAspectJTest {
 
-    String s;
-
     @Autowired
     Bar bar;
 
     @Autowired
     Customer customer;
 
+    String message;
+
     @Before
     public void setUp() {
-        s = TestUtils.fromSystemOutPrintln(() -> bar.sellSquishee(customer));
+        message = TestUtils.fromSystemOutPrintln(() -> bar.sellSquishee(customer));
     }
 
     @Test
     public void testBeforeAdvice() {
-        assertTrue("Before advice is not good enought...", s.contains("Hello"));
-        assertTrue("Before advice is not good enought...", s.contains("How are you doing?"));
+        assertTrue("Before advice is not good enought...", message.contains("Hello"));
+        assertTrue("Before advice is not good enought...", message.contains("How are you doing?"));
     }
 
     @Test
     public void testAfterAdvice() {
-        assertTrue("After advice is not good enought...", s.contains("Good Bye!"));
+        assertTrue("After advice is not good enought...", message.contains("Good Bye!"));
     }
 
     @Test
     public void testAfterReturningAdvice() {
-        assertTrue("Customer is broken", s.contains("Good Enough?"));
+        assertTrue("Customer is broken", message.contains("Good Enough?"));
     }
 
     @Test
     public void testAroundAdvice() {
-        assertTrue("Around advice is not good enought...", s.contains("Hi!"));
-        assertTrue("Around advice is not good enought...", s.contains("See you!"));
+        assertTrue("Around advice is not good enought...", message.contains("Hi!"));
+        assertTrue("Around advice is not good enought...", message.contains("See you!"));
     }
 
     @Test
