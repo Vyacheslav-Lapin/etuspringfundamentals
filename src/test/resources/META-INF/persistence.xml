@@ -8,11 +8,11 @@
             Persistence unit for the Spring JPA tutorial with Hibernate using as JPA provider
         </description>
 
-        <!-- <class>lab.model.Country</class> -->
-        
+        <class>lab.model.Country</class>
+
         <properties>
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
         </properties>
 
     </persistence-unit>
